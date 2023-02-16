@@ -3,7 +3,11 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Select,
   Typography,
   TextField
@@ -107,7 +111,7 @@ const Publish = () => {
     <TemplateDefault>
       <Container maxWidth="sm" className={classes.container}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary">
-          Publica Anúncio
+          Publicar Anúncio
         </Typography>
         <Typography component="h5" variant="h5" align="center" color="textPrimary">
           Quanto mais detalhado, melhor!
@@ -216,6 +220,23 @@ const Publish = () => {
             variant="outlined"
             fullWidth
           />
+        </Box>
+      </Container>
+
+      <Container maxWidth="md" className={classes.boxContainer}>
+        <Box className={classes.box}>
+          <Typography component="h6" variant="h6" color="textPrimary">
+            Preço
+          </Typography>
+          <br />
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>Valor</InputLabel>
+            <OutlinedInput 
+              onChange={() => {}}
+              startAdornment={<InputAdornment position="start">R$</InputAdornment>}
+              labelWidth={40}
+            />
+          </FormControl>
         </Box>
       </Container>
 
