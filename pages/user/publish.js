@@ -1,9 +1,24 @@
-import { Box, Button, Container, Select, Typography, TextField } from '@material-ui/core'
+import { useState } from 'react'
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Select,
+  Typography,
+  TextField
+} from '@material-ui/core'
+
+import { useDropzone } from 'react-dropzone'
 import { makeStyles } from '@material-ui/styles'
+import { DeleteForever } from '@material-ui/icons'
 
 import TemplateDefault from '../../src/templates/Default'
 
 const useStyles = makeStyles((theme) => ({
+  mainImage: {},
+  mask: {},
+  
   container: {
     padding: theme.spacing(8, 0, 6),
   },
@@ -13,11 +28,80 @@ const useStyles = makeStyles((theme) => ({
   box: {
     backgroundColor: theme.palette.background.white,
     padding: theme.spacing(3),
+  },
+  thumbsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginTop: 15,
+  },
+  dropzone: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems:'center',
+    textAlign: 'center',
+    padding: 10,
+    width: 200,
+    height: 150,
+    margin: '0 15px 15px 0',
+    backgroundColor: theme.palette.background.default,
+    border: '2px dashed black'
+  },
+  thumb: {
+    position: 'relative',
+    width: 200,
+    height: 150,
+    backgroundSize: 'cover',
+    margin: '0 15px 15px 0',
+    backgroundPosition: 'center center',
+
+    '& $mainImage': {
+      backgroundColor: 'blue',
+      padding: '6px 10px',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+    },
+
+    '&:hover $mask': {
+      display: 'flex',
+    },
+
+    '& $mask': {
+      display: 'none',
+      justifyContent: 'center',
+      alignItems:'center',
+      textAlign: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      width: '100%',
+      height: '100%'
+    }
   }
 }))
 
 const Publish = () => {
   const classes = useStyles()
+  const [files, setFiles] = useState([])
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop: (acceptedFile) => {
+      const newFiles = acceptedFile.map(file => {
+        return Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        })
+      })
+
+      setFiles([
+        ...files,
+        ...newFiles,
+      ])
+    }
+  })
+
+  const handleRemoveFile = fileName => {
+    const newFileState = files.filter(file => file.name !== fileName)
+    setFiles(newFileState)
+  }
 
   return (
     <TemplateDefault>
@@ -75,57 +159,91 @@ const Publish = () => {
 
       <Container maxWidth="md" className={classes.boxContainer}>
         <Box className={classes.box}>
-        <Typography component="h6" variant="h6" color="textPrimary">
-          Imagens
-        </Typography>
-        <Typography component="div" variant="body2" color="textPrimary">
-          A primeira imagem é a foto principal do seu anúncio.
-        </Typography>
+          <Typography component="h6" variant="h6" color="textPrimary">
+            Imagens
+          </Typography>
+          <Typography component="div" variant="body2" color="textPrimary">
+            A primeira imagem é a foto principal do seu anúncio.
+          </Typography>
+          <Box className={classes.thumbsContainer}>
+            <Box className={classes.dropzone} {...getRootProps()}>
+              <input {...getInputProps()} />
+              <Typography variant="body2" color="textPrimary">
+                Clique para adicionar ou arraste a imagem aqui.
+              </Typography>
+            </Box>
+
+            {
+              files.map((file, index) => (
+                <Box
+                key={file.name}
+                  className={classes.thumb}
+                  style={{ backgroundImage: `url(${file.preview})` }}
+                >
+                  {
+                    index === 0 ?
+                    <Box className={classes.mainImage}>
+                      <Typography variant="body" color="secondary">
+                        Principal
+                      </Typography>
+                    </Box>
+                    : null
+                  }
+                  <Box className={classes.mask} onClick={() => handleRemoveFile(file.name)}>
+                    <IconButton color="secondary" >
+                      <DeleteForever fontSize="large" />
+                    </IconButton>
+                  </Box>
+                </Box>
+              ))
+            }
+            
+          </Box>
         </Box>
       </Container>
 
       <Container maxWidth="md" className={classes.boxContainer}>
         <Box className={classes.box}>
-        <Typography component="h6" variant="h6" color="textPrimary">
-          Descrição
-        </Typography>
-        <Typography component="div" variant="body2" color="textPrimary">
-          Escreva os detalhes do que está vendendo
-        </Typography>
-        <TextField 
-          multiline
-          minRows={6}
-          variant="outlined"
-          fullWidth
-        />
+          <Typography component="h6" variant="h6" color="textPrimary">
+            Descrição
+          </Typography>
+          <Typography component="div" variant="body2" color="textPrimary">
+            Escreva os detalhes do que está vendendo
+          </Typography>
+          <TextField 
+            multiline
+            minRows={6}
+            variant="outlined"
+            fullWidth
+          />
         </Box>
       </Container>
 
       <Container maxWidth="md" className={classes.boxContainer}>
         <Box className={classes.box}>
-        <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
-          Dados de Contato
-        </Typography>
-        <TextField 
-          label="Nome"
-          variant="outlined"
-          size="small"
-          fullWidth
-        />
-        <br /><br />
-        <TextField 
-          label="E-mail"
-          variant="outlined"
-          size="small"
-          fullWidth
-        />
-        <br /><br />
-        <TextField 
-          label="Telefone"
-          variant="outlined"
-          size="small"
-          fullWidth
-        />
+          <Typography component="h6" variant="h6" color="textPrimary" gutterBottom>
+            Dados de Contato
+          </Typography>
+          <TextField 
+            label="Nome"
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
+          <br /><br />
+          <TextField 
+            label="E-mail"
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
+          <br /><br />
+          <TextField 
+            label="Telefone"
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
         </Box>
       </Container>
 
