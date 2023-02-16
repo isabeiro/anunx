@@ -49,7 +49,7 @@ const classes = useStyle()
               />
               <CardContent>
                 <Typography component="h2" variant="h5">
-                  Produto
+                  Produto X
                 </Typography>
                 <Typography>
                   R$ 60,00
