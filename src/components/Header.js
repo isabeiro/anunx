@@ -1,40 +1,94 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { makeStyles } from '@material-ui/core/styles'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Container,
+  Avatar,
+  Menu,
+  MenuItem,
+  Divider,
+} from '@material-ui/core'
+import { AccountCircle, MenuIcon } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
   },
-}));
+  button: {
+    textDecoration: 'none',
+  },
+  userName: {
+    marginLeft: 6,
+  },
+  divider: {
+    margin: '8px 0'
+  },
+  links: {
+    textDecoration: 'none',
+    color: 'black',
+  },
+}))
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
+  const classes = useStyles()
+  const [anchorUserMenu, setAnchorUserMenu] = useState(false)
+
+  const openUserMenu = Boolean(anchorUserMenu)
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
+    <>
+      
+      <AppBar position="static" elevation={3}>
+        <Container maxWidth="lg">
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Anunx
+            </Typography>
+            <Link href="/user/publish" passHref>
+              <Button color="secondary" variant="outlined" className={classes.button}>
+                Anunciar e Vender
+              </Button>
+            </Link>
+            <IconButton color="secondary" onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
+              {
+                true === false
+                ? <Avatar src="" />
+                : <AccountCircle />
+              }
+              <Typography variant="subtitle2" color="secondary" className={classes.userName}>
+                Isabela Ribeiro
+              </Typography>
+            </IconButton>
+            
+            <Menu
+              anchorEl={anchorUserMenu}
+              open={openUserMenu}
+              onClose={() => setAnchorUserMenu(null)}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              <Link href="/user/dashboard" className={classes.links}  passHref >
+                <MenuItem >Meus anúncios</MenuItem>
+              </Link>
+              <Link href="/user/publish" className={classes.links} passHref>
+                <MenuItem>Publicar novo anúncio</MenuItem>
+              </Link>
+              <Divider className={classes.divider} />
+              <MenuItem>Sair</MenuItem>
+            </Menu>
+          </Toolbar>
+        </Container>
       </AppBar>
-    </div>
-  );
+    </>
+  )
 }
