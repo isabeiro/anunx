@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   },
   links: {
     textDecoration: 'none',
-    color: 'black',
   },
 }))
 
