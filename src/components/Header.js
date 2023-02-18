@@ -78,7 +78,7 @@ export default function ButtonAppBar() {
               }}
             >
               <Link href="/user/dashboard" className={classes.links}  passHref >
-                <MenuItem >Meus anúncios</MenuItem>
+                <MenuItem>Meus anúncios</MenuItem>
               </Link>
               <Link href="/user/publish" className={classes.links} passHref>
                 <MenuItem>Publicar novo anúncio</MenuItem>
