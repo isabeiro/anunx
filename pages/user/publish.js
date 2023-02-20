@@ -13,7 +13,9 @@ import {
   OutlinedInput,
   Select,
   Typography,
-  TextField
+  TextField,
+  MenuItem,
+  FormHelperText,
 } from '@material-ui/core'
 
 import { useDropzone } from 'react-dropzone'
@@ -87,6 +89,8 @@ const validationSchema = yup.object().shape({
     .min(6, 'Escreva um título maior')
     .max(100, 'Título muito grande')
     .required('Campo obrigatório'),
+
+  category: yup.string().required('Campo obrigatório')
 })
 
 const Publish = () => {
@@ -118,7 +122,8 @@ const Publish = () => {
     <TemplateDefault>
       <Formik 
         initialValues={{
-          title: ''
+          title: '',
+          category: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
@@ -149,49 +154,50 @@ const Publish = () => {
 
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
-                  <Typography component="h6" variant="h6" color="textPrimary">
-                    Título do Anúncio
-                  </Typography>
-                  <TextField 
-                  name="title"
-                  value={values.title}
-                    onChange={handleChange}
-                    label="ex.: Bicicleta Aro 18 com garantia"
-                    size="small"
-                    fullWidth
-                    error={errors.title}
-                    helperText={errors.title}
-                  />
-                  <br /><br />
-                  <Typography component="h6" variant="h6" color="textPrimary">
-                    Categoria
-                  </Typography>
-                  <Select
-                  native
-                  value=""
-                  fullWidth
-                  onChange={() => {}}
-                  inpuitProps={{
-                    name: 'age',
-                  }}
-                  >
-                    <option value="">Selecione</option>
-                    <option value={1}>Bebê e Criança</option>
-                    <option value={2}>Agricultura</option>
-                    <option value={3}>Moda</option>
-                    <option value={4}>Carros, Motos e Barcos</option>
-                    <option value={5}>Serviços</option>
-                    <option value={6}>Lazer</option>
-                    <option value={7}>Animais</option>
-                    <option value={8}>Moveis, Casa e Jardim</option>
-                    <option value={9}>Imóveis</option>
-                    <option value={10}>Equipamentos e Ferramentas</option>
-                    <option value={11}>Celulares e Tablets</option>
-                    <option value={12}>Esportes</option>
-                    <option value={13}>Tecnologia</option>
-                    <option value={14}>Emprego</option>
-                    <option value={15}>Outros</option>
-                  </Select>
+                    <Typography component="h6" variant="h6" color="textPrimary">
+                      Título do Anúncio
+                    </Typography>
+                    <TextField 
+                      name="title"
+                      value={values.title}
+                      onChange={handleChange}
+                      label="ex.: Bicicleta Aro 18 com garantia"
+                      size="small"
+                      fullWidth
+                      error={errors.title}
+                      helperText={errors.title}
+                    />
+                    <br /><br />
+                    <Typography component="h6" variant="h6" color="textPrimary">
+                      Categoria
+                    </Typography>
+                    <FormControl error={errors.category} fullWidth>
+                      <Select
+                        name="category"
+                        value={values.category}
+                        fullWidth
+                        onChange={handleChange}
+                      >
+                        <MenuItem value="Bebê e Criança">Bebê e Criança</MenuItem>
+                        <MenuItem value="Agricultura">Agricultura</MenuItem>
+                        <MenuItem value="Moda">Moda</MenuItem>
+                        <MenuItem value="Carros, Motos e Barcos">Carros, Motos e Barcos</MenuItem>
+                        <MenuItem value="Serviços">Serviços</MenuItem>
+                        <MenuItem value="Lazer">Lazer</MenuItem>
+                        <MenuItem value="Animais">Animais</MenuItem>
+                        <MenuItem value="Moveis, Casa e Jardim">Moveis, Casa e Jardim</MenuItem>
+                        <MenuItem value="Imóveis">Imóveis</MenuItem>
+                        <MenuItem value="Equipamentos e Ferramentas">Equipamentos e Ferramentas</MenuItem>
+                        <MenuItem value="Celulares e Tablets">Celulares e Tablets</MenuItem>
+                        <MenuItem value="Esportes">Esportes</MenuItem>
+                        <MenuItem value="Tecnologia">Tecnologia</MenuItem>
+                        <MenuItem value="Emprego">Emprego</MenuItem>
+                        <MenuItem value="Outros">Outros</MenuItem>
+                      </Select>
+                      <FormHelperText>
+                        { errors.category }
+                      </FormHelperText>
+                    </FormControl>
                   </Box>
                 </Container>
 
