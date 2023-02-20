@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: theme.spacing(6),
       paddingBottom: theme.spacing(6),
     },
-    links: {
+    footerLink: {
       textDecoration: 'none',
     },
   }
@@ -30,14 +30,14 @@ const classes = useStyles()
       <Grid container spacing={3}>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" passHref>
+            <Link href="#" passHref className={classes.footerLink}>
               <Typography color="textSecondary" variant="subtitle1">Ajuda e Contato</Typography>
             </Link>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" className={classes.links} passHref>
+            <Link href="#" passHref>
               <Typography color="textSecondary" variant="subtitle1">Dicas de segurança</Typography>
             </Link>
           </Box>
