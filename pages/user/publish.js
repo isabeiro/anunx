@@ -8,6 +8,7 @@ import {
   Container,
   FormControl,
   IconButton,
+  Input,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -39,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     marginTop: 15,
+  },
+  inputLabel: {
+    fontWeigth: 400,
+    color: theme.palette.primary.main,
   },
   dropzone: {
     display: 'flex',
@@ -90,7 +95,11 @@ const validationSchema = yup.object().shape({
     .max(100, 'Título muito grande')
     .required('Campo obrigatório'),
 
-  category: yup.string().required('Campo obrigatório')
+  category: yup.string().required('Campo obrigatório'),
+
+  description: yup.string()
+  .min(50, 'Escreva uma descrição com pelo menos 50 caracteres.')
+  .required('Campo obrigatório'),
 })
 
 const Publish = () => {
@@ -124,6 +133,7 @@ const Publish = () => {
         initialValues={{
           title: '',
           category: '',
+          description: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
@@ -154,24 +164,24 @@ const Publish = () => {
 
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
-                      Título do Anúncio
-                    </Typography>
-                    <TextField 
-                      name="title"
-                      value={values.title}
-                      onChange={handleChange}
-                      label="ex.: Bicicleta Aro 18 com garantia"
-                      size="small"
-                      fullWidth
-                      error={errors.title}
-                      helperText={errors.title}
-                    />
+                    
+                    <FormControl error={errors.title} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Título do Anúncio</InputLabel>
+                      <Input 
+                        name="title"
+                        value={values.title}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        { errors.category }
+                      </FormHelperText>
+                    </FormControl>
+
                     <br /><br />
-                    <Typography component="h6" variant="h6" color="textPrimary">
-                      Categoria
-                    </Typography>
+
                     <FormControl error={errors.category} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Categoria</InputLabel>
+
                       <Select
                         name="category"
                         value={values.category}
@@ -248,18 +258,19 @@ const Publish = () => {
 
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
-                    <Typography component="h6" variant="h6" color="textPrimary">
-                      Descrição
-                    </Typography>
-                    <Typography component="div" variant="body2" color="textPrimary">
-                      Escreva os detalhes do que está vendendo
-                    </Typography>
-                    <TextField 
-                      multiline
-                      minRows={6}
-                      variant="outlined"
-                      fullWidth
-                    />
+                    <FormControl error={errors.category} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Escreva os detalhes do que está vendendo</InputLabel>
+
+                      <Input
+                        name="description"
+                        multiline
+                        minRows={6}
+                        variant="outlined"
+                      />
+                      <FormHelperText>
+                        { errors.description }
+                      </FormHelperText>
+                    </FormControl>
                   </Box>
                 </Container>
 
