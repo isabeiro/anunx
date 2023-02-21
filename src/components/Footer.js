@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from 'next/link'
 import {
   Box,
   Container,
@@ -30,28 +30,28 @@ const classes = useStyles()
       <Grid container spacing={3}>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" passHref className={classes.footerLink}>
+            <Link href="#" className={classes.footerLink} passHref >
               <Typography color="textSecondary" variant="subtitle1">Ajuda e Contato</Typography>
             </Link>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" passHref>
+            <Link href="#" className={classes.footerLink} passHref>
               <Typography color="textSecondary" variant="subtitle1">Dicas de segurança</Typography>
             </Link>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" passHref>
+            <Link href="#" className={classes.footerLink} passHref>
               <Typography color="textSecondary" variant="subtitle1">Anunciar e Vender</Typography>
             </Link>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" passHref>
+            <Link href="#" className={classes.footerLink} passHref>
               <Typography color="textSecondary" variant="subtitle1">Plano profissional</Typography>
             </Link>
           </Box>
