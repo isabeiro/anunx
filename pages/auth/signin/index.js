@@ -22,7 +22,7 @@ import useStyles from './styles'
 import { Alert } from '@material-ui/lab'
 import Image from 'next/image'
 
-const Singin = () => {
+const Signin = ({ APP_URL }) => {
   const classes = useStyles()
   const router = useRouter()
   const { setToasty } = useToasty()
@@ -32,7 +32,7 @@ const Singin = () => {
   
   const handleGoogleLogin = () => {
     signIn('google', {
-      callbackUrl: 'http://localhost:3000/user/dashboard'
+      callbackUrl: `${APP_URL}/user/dashboard`
     })
   }
 
@@ -40,7 +40,7 @@ const Singin = () => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
-      callbackUrl: 'http://localhost:3000/user/dashboard'
+      callbackUrl: `${APP_URL}/user/dashboard`
     })
   }
   
@@ -155,4 +155,10 @@ const Singin = () => {
   )
 }
 
-export default Singin
+export default Signin
+
+Signin.getInitialProps = async function() {
+  return {
+   APP_URL: 'process.env.APP_URL'
+  }
+}
