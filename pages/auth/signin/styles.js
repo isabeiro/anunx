@@ -15,9 +15,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  isSubmitting: {
+  loading: {
     display: 'block',
     margin: '10px auto',
+  },
+  errorMessage: {
+    margin: '20px 0',
   },
 }))
 
