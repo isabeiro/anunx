@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
   Toolbar,
@@ -13,7 +12,11 @@ import {
   MenuItem,
   Divider,
 } from '@material-ui/core'
+
+import { makeStyles } from '@material-ui/core/styles'
 import { AccountCircle, MenuIcon } from '@material-ui/icons'
+
+
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -32,8 +35,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '8px 0'
   },
   links: {
-    textDecoration: 'none',
-  },
+    textDecoration: "none",
+    color: theme.palette.primary.main,
+  }
 }))
 
 export default function ButtonAppBar() {
@@ -76,7 +80,7 @@ export default function ButtonAppBar() {
                 horizontal: 'right',
               }}
             >
-              <Link href="/user/dashboard" className={classes.links}  passHref >
+              <Link href="/user/dashboard" color="primary" className={classes.links} passHref >
                 <MenuItem>Meus anúncios</MenuItem>
               </Link>
               <Link href="/user/publish" className={classes.links} passHref>

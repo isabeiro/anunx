@@ -5,7 +5,11 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core"
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, styled } from '@material-ui/core/styles'
+
+const MyLink = styled(Link)((theme) => ({
+  textDecoration: "none"
+}))
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -16,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: theme.spacing(6),
       paddingBottom: theme.spacing(6),
     },
-    footerLink: {
-      textDecoration: 'none',
-    },
   }
 }))
 
@@ -26,34 +27,34 @@ const Footer = () => {
 const classes = useStyles()
 
   return (
-    <Container maxWidth="lg" component="footer" className={classes.footer}>
+    <Container maxWidth="lg" component="footer">
       <Grid container spacing={3}>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" className={classes.footerLink} passHref >
+            <MyLink href="#" passHref>
               <Typography color="textSecondary" variant="subtitle1">Ajuda e Contato</Typography>
-            </Link>
+            </MyLink>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" className={classes.footerLink} passHref>
+            <MyLink href="#" passHref>
               <Typography color="textSecondary" variant="subtitle1">Dicas de segurança</Typography>
-            </Link>
+            </MyLink>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" className={classes.footerLink} passHref>
+            <MyLink href="#" passHref>
               <Typography color="textSecondary" variant="subtitle1">Anunciar e Vender</Typography>
-            </Link>
+            </MyLink>
           </Box>
         </Grid>
         <Grid item xs={6} sm={3}>
           <Box textAlign="center">
-            <Link href="#" className={classes.footerLink} passHref>
+            <MyLink href="#" passHref>
               <Typography color="textSecondary" variant="subtitle1">Plano profissional</Typography>
-            </Link>
+            </MyLink>
           </Box>
         </Grid>
       </Grid>
