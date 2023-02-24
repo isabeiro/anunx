@@ -7,7 +7,7 @@ const CheckAuth = ({ Component, pageProps }) => {
   const router = useRouter()
 
   useEffect(() => {
-if (loading) return
+  if (loading) return
 
     if (!session) {
       router.push('/auth/signin')
