@@ -15,12 +15,13 @@ import {
   CircularProgress,
 } from '@material-ui/core'
 
+import { Alert } from '@material-ui/lab'
+import Image from 'next/image'
+
 import TemplateDefault from '../../../src/templates/Default'
 import { initialValues, validationSchema } from './formValues'
 import useToasty from '../../../src/contexts/Toasty'
 import useStyles from './styles'
-import { Alert } from '@material-ui/lab'
-import Image from 'next/image'
 
 const Signin = ({ APP_URL }) => {
   const classes = useStyles()
@@ -36,7 +37,7 @@ const Signin = ({ APP_URL }) => {
     })
   }
 
-  const handleFormSubmit = async values => {
+  const handleSubmit = values => {
     signIn('credentials', {
       email: values.email,
       password: values.password,
@@ -79,7 +80,7 @@ const Signin = ({ APP_URL }) => {
           <Formik 
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleFormSubmit}
+            onSubmit={handleSubmit}
           >
             {
               ({
@@ -95,11 +96,11 @@ const Signin = ({ APP_URL }) => {
                   <form onSubmit={handleSubmit}>
                     {
                       router.query.i === '1'
-                      ? (
-                        <Alert severity="error" className={classes.errorMessage}>
-                          Usuário ou senha inválidos
-                        </Alert>
-                      ) : null
+                        ? (
+                          <Alert severity="error" className={classes.errorMessage}>
+                            Usuário ou senha inválidos
+                          </Alert>
+                        ) : null
                     }
                     <FormControl fullWidth error={errors.email && touched.email} className={classes.formControl}>
                       <InputLabel>E-mail</InputLabel>
@@ -127,22 +128,22 @@ const Signin = ({ APP_URL }) => {
                       </FormHelperText>
                     </FormControl>
 
-                      {
-                        isSubmitting
-                          ? (
-                            <CircularProgress className={classes.loading}/>
-                          ) : (
-                            <Button 
-                              type="submit" 
-                              variant="contained" 
-                              color="primary" 
-                              fullWidth
-                              className={classes.submit}
-                            >
-                              Entrar
-                            </Button>
-                          )
-                      }
+                    {
+                      isSubmitting
+                        ? (
+                          <CircularProgress className={classes.loading}/>
+                        ) : (
+                          <Button 
+                            type="submit" 
+                            variant="contained" 
+                            color="primary" 
+                            fullWidth
+                            className={classes.submit}
+                          >
+                            Entrar
+                          </Button>
+                        )
+                    }
 
                   </form>
                 )
@@ -155,10 +156,13 @@ const Signin = ({ APP_URL }) => {
   )
 }
 
-export default Signin
 
-Signin.getServerSideProps = async function() {
+export async function getServerSideProps() {
   return {
-   APP_URL: process.env.APP_URL
+      props: {
+          APP_URL: process.env.APP_URL
+      }
   }
 }
+
+export default Signin
