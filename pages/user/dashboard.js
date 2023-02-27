@@ -38,7 +38,7 @@ const Home = ({ products }) => {
   const classes = useStyles()
   const { setToasty } = useToasty()
   const [productId, setProductId] = useState()
-  const [removedProducts, setRemovedProducts] = useState()
+  const [removedProducts, setRemovedProducts] = useState([])
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
 
   const handleCloseModal = () => setOpenConfirmModal(false)

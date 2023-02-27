@@ -9,8 +9,8 @@ const post = async (req, res) => {
 
   const form = new formidable.IncomingForm({
     multiples: true,
-    uploadDir: 'public/uploads',
-    keepExtentions: true,
+    uploadDir: "public/uploads",
+    keepExtensions: true,
   })
 
   form.parse(req, async (error, fields, data) => {
@@ -33,8 +33,8 @@ const post = async (req, res) => {
 
       const filename = `${timestamp}_${random}${extension}`
 
-      const oldpath = path.join(__dirname, `../../../../${file.path}`)
-      const newpath = path.join(__dirname, `../../../../${form.uploadDir}/${filename}`)
+      const oldpath = path.join(__dirname, `../../../../../${file.path}`)
+      const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
 
       filesToSave.push({
         name: filename,
@@ -79,7 +79,7 @@ const post = async (req, res) => {
     const register = await product.save()
 
     if (register) {
-      res.status(201).json({ success:true })
+      res.status(201).json({ success: true })
     } else {
       res.status(500).json({ success: false })
     }
