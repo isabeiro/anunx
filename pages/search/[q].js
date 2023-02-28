@@ -8,11 +8,16 @@ import {
   Box
 } from '@material-ui/core'
 
+import Link from 'next/link'
+import slugify from 'slugify'
+
 import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/search'
-import TemplateDefault from '../../src/templates/Default'
 
 import Card from '../../src/components/Card'
+import TemplateDefault from '../../src/templates/Default'
+import { formatCurrency } from '../../src/utils/currency'
+import ProductsModel from '../../src/models/products'
 
 const useStyles = makeStyles((theme) => ({
   searchBox: {
@@ -21,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     marginBottom: 20,
   },
+  productLink: {
+    textDecoration: 'none !important',
+  },
   box: {
     backgroundColor: theme.palette.background.white,
     padding: theme.spacing(3),
@@ -28,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const List = () => {
+const List = ({ products }) => {
   const classes = useStyles()
 
   return (
@@ -56,33 +64,28 @@ const List = () => {
               Anúncios
             </Typography>
             <Typography component="span" variant="subtitle2" align="left">
-              ENCONTRADOS 200 ANÚNCIOS
+              ENCONTRADOS {products.length} ANÚNCIOS
             </Typography>
             <br /><br />
             <Grid container spacing={4}>
-              <Grid item xs={12} sm={6} md={4}>
-                <Card 
-                  image={'http://source.unsplash.com/random?a=1'}
-                  title="Produto X"
-                  subtitle="R$ 60,00"
-                />
-              </Grid>
+              {
+                products.map(product => {
+                  const category = slugify(product.category).toLocaleLowerCase()
+                  const title = slugify(product.title).toLocaleLowerCase()
 
-              <Grid item xs={12} sm={6} md={4}>
-                <Card 
-                  image={'http://source.unsplash.com/random?a=2'}
-                  title="Produto X"
-                  subtitle="R$ 60,00"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6} md={4}>
-                <Card 
-                  image={'http://source.unsplash.com/random?a=3'}
-                  title="Produto X"
-                  subtitle="R$ 60,00"
-                />
-              </Grid>
+                  return (
+                    <Grid item xs={12} sm={6} md={4}>
+                      <Link href={`/${category}/${title}/${product._id}`} className={classes.productLink}>
+                        <Card 
+                        image={`/uploads/${product.files[0].name}`}
+                        title={product.title}
+                        subtitle={formatCurrency(product.price)}
+                        />
+                      </Link>
+                    </Grid>
+                  )
+                })
+              }
             </Grid>
           </Box>
         </Grid>
@@ -90,6 +93,33 @@ const List = () => {
       </Container>        
     </TemplateDefault>
   )
+}
+
+export async function getServerSideProps({ query }) {
+  const { q } = query
+
+  const products = await ProductsModel.find({
+    $or: [
+      { 
+        title: {
+          $regex: q,
+          $options: 'i'
+        }
+      },
+      { 
+        description: {
+          $regex: q,
+          $options: 'i'
+        }
+      },
+    ]
+  })
+
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products))
+    }
+  }
 }
 
 export default List
