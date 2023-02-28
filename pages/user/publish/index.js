@@ -248,6 +248,19 @@ const Publish = ({ userId, image }) => {
                         { errors.phone && touched.phone ? errors.phone : null }
                       </FormHelperText>
                     </FormControl>
+                    <br /><br />
+
+                    <FormControl error={errors.local && touched.local} fullWidth>
+                      <InputLabel className={classes.inputLabel}>Estado</InputLabel>
+                      <Input 
+                        name="local"
+                        value={values.local}
+                        onChange={handleChange}
+                      />
+                      <FormHelperText>
+                        { errors.local && touched.local ? errors.local : null }
+                      </FormHelperText>
+                    </FormControl>
                   </Box>
                 </Container>
 
