@@ -30,12 +30,20 @@ const Publish = ({ userId, image }) => {
   const { setToasty } = useToasty()
   const router = useRouter
 
+  const timestamp = new Date()
+  const day = timestamp.getDate()
+  const month = timestamp.getMonth()+1
+  const year = timestamp.getFullYear()
+
+  const date = (day+'/'+month+'/'+year)
+
   const formValues = {
     ...initialValues,
   }
 
   formValues.userId = userId
   formValues.image = image
+  formValues.timestamp = date
 
   const handleSuccess = () => {
     setToasty({
@@ -96,6 +104,8 @@ const Publish = ({ userId, image }) => {
               <form onSubmit={handleSubmit}>
                 <Input type="hidden" name="userId" value={values.userId} />
                 <Input type="hidden" name="image" value={values.image} />
+                <Input type="hidden" name="timestamp" value={values.timestamp} />
+
 
                 <Container maxWidth="sm">
                   <Typography component="h1" variant="h2" align="center" color="textPrimary">

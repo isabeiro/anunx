@@ -59,6 +59,7 @@ const post = async (req, res) => {
       local,
       phone,
       userId,
+      timestamp,
       image,
     } = fields
 
@@ -69,6 +70,7 @@ const post = async (req, res) => {
       price,
       user: {
         id: userId,
+        timestamp,
         name,
         email,
         local,

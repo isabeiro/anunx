@@ -10,6 +10,7 @@ const initialValues = {
   name: '',
   phone: '',
   local: '',
+  timestamp: '',
   files: [], //pq é um array de imagens
 }
 
