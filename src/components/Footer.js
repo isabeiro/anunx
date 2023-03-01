@@ -8,7 +8,7 @@ import {
 import { makeStyles, styled } from '@material-ui/core/styles'
 
 const MyLink = styled(Link)((theme) => ({
-  textDecoration: "none"
+  textDecoration: 'none !important' 
 }))
 
 const useStyles = makeStyles((theme) => ({

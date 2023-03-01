@@ -1,34 +1,23 @@
-import { useState } from 'react'
 import Link from 'next/link'
 import slugify from 'slugify'
-import { useRouter } from 'next/router'
 
 import {
-  Paper,
   Container,
-  IconButton,
-  InputBase,
   Typography,
   Grid
 } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/styles'
-import SearchIcon from '@material-ui/icons/search'
 import TemplateDefault from '../src/templates/Default'
 import Card from '../src/components/Card'
 import dbConnect from '../src/utils/dbConnect'
 import ProductsModel from '../src/models/products'
 import { formatCurrency } from '../src/utils/currency'
+import SearchBar from '@/src/components/SearchBar'
 
 const useStyles = makeStyles((theme) => ({
   productLink: {
     textDecoration: 'none !important',
-  },
-  searchBox: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: theme.spacing(0, 2),
-    marginTop: 20,
   },
   cardGrid: {
     marginTop: 50,
@@ -36,32 +25,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = ({ products }) => {
-  const router = useRouter()
-  const [search, setSearch] = useState()
   const classes = useStyles()
 
-  const handleSubmitSearch = () => {
-    router.push({
-      pathname: `/search/${search}`
-    })
-  }
-  
   return (
     <TemplateDefault>
       <Container maxWidth="md">
-        <Typography component="h1" variant="h3" align="center" color="textPrimary">
-          O que deseja encontrar?
-        </Typography>
-        <Paper className={classes.searchBox}>
-          <InputBase 
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Ex.: iPhone 12 com garantia"
-            fullWidth
-          />
-          <IconButton onClick={handleSubmitSearch}>
-            <SearchIcon />
-          </IconButton>
-        </Paper>
+        <SearchBar />
       </Container>
 
       <Container maxWidth="lg" className={classes.cardGrid}>

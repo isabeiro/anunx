@@ -23,9 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    fontSize: '20px',
+    textDecoration: 'none !important',
+    color: theme.palette.secondary.main,
   },
   headButton: {
-    textDecoration: 'none',
     marginRight: '10px'
   },
   userName: {
@@ -35,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '8px 0'
   },
   links: {
-    textDecoration: "none",
+    textDecoration: 'none !important' ,
     color: theme.palette.primary.main,
   }
 }))
@@ -53,10 +55,10 @@ export default function ButtonAppBar() {
       <AppBar position="static" elevation={3}>
         <Container maxWidth="lg">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
+            <Link href={'/'} className={classes.title} passHref>
               Anunx
-            </Typography>
-            <Link href={session ? '/user/publish' : '/auth/signin'} passHref>
+            </Link>
+            <Link href={session ? '/user/publish' : '/auth/signin'} className={classes.links} passHref>
               <Button color="secondary" variant="outlined" className={classes.headButton}>
                 Anunciar e Vender
               </Button>

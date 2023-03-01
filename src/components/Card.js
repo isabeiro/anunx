@@ -12,6 +12,9 @@ const useStyles = makeStyles(() => ({
   cardMedia: {
     paddingTop: '56%',
   },
+  cardContent: {
+    height: '150px'
+  },
 }))
 
 const Card = ({ image, title, subtitle, actions}) => {
@@ -24,10 +27,11 @@ const Card = ({ image, title, subtitle, actions}) => {
         image={image}
         title={title}
       />
-      <CardContent>
+      <CardContent className={classes.cardContent}>
         <Typography component="h2" variant="h5">
           {title}
         </Typography>
+        <br></br>
         <Typography>
           {subtitle}
         </Typography>
