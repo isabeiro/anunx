@@ -62,7 +62,7 @@ const post = async (req, res) => {
       timestamp,
       image,
     } = fields
-
+    
     const product = new ProductsModel({
       title,
       category,
@@ -81,6 +81,7 @@ const post = async (req, res) => {
     })
 
     const register = await product.save()
+
 
     if (register) {
       res.status(201).json({ success: true })
@@ -104,7 +105,89 @@ const remove = async (req, res) => {
   }
 }
 
+const put = async (req, res) => {
+  await dbConnect()
+
+  const form = formidable.IncomingForm({
+    multiples: true,
+    uploadDir: "public/uploads",
+    keepExtensions: true,
+  })
+
+  form.parse(req, async (error, fields, data) => {
+    if (error) {
+      return res.status(500).json({ success: false })
+    }
+
+    const { id } = req.query
+
+    const filesToRename = files instanceof Array
+      ? files
+      : [files]
+
+    const filesToSave = []
+
+    filesToRename.forEach(file => {
+      const timestamp = Date.now()
+      const random = Math.floor(Math.random() * 99999999) + 1
+      const extension = path.extname(file.name) //retorna .jpg ou .(extensao da imagem)
+
+      const filename = `${timestamp}_${random}${extension}`
+
+      const oldpath = path.join(__dirname, `../../../../../${file.path}`)
+      const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
+
+      filesToSave.push({
+        name: filename,
+        path: newpath,
+      })
+
+      fs.rename(oldpath, newpath, (error) => {
+        if (error) {
+          console.log(error)
+          return res.status(500).json({ success: true })
+        }
+      })      
+    })
+
+    const {
+      title,
+      category,
+      description,
+      price,
+      name,
+      email,
+      local,
+      phone,
+      timestamp,
+      image,
+    } = fields
+
+    const product = await ProductsModel.findById(id)
+    
+    product.title = title 
+    product.category = category 
+    product.description = description 
+    product.price = price 
+    product.timestamp = timestamp 
+    product.name = name 
+    product.email = email 
+    product.local = local 
+    product.phone = phone 
+    product.image = image 
+
+    const register = product.save()
+    
+    if (register) {
+      res.status(201).json({ success: true })
+    } else {
+      res.status(500).json({ success: false })
+    }
+  })
+}
+
 export {
   post,
   remove,
+  put,
 }
