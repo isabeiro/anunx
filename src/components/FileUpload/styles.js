@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 150,
     margin: '0 15px 15px 0',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: 'theme.palette.background.default',
     border: '2px dashed black'
   },
   thumb: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center center',
 
     '& $mainImage': {
-      backgroundColor: 'blue',
+      backgroundColor: theme.palette.primary.main,
       padding: '6px 10px',
       position: 'absolute',
       bottom: 0,
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.7)',
       width: '100%',
-      height: '100%'
+      height: '100%',
     }
   }
 }))

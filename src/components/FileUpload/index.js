@@ -72,7 +72,7 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
                 : null
               }
               <Box className={classes.mask} onClick={() => handleRemoveFile(file.path)}>
-                <IconButton color="secondary" >
+                <IconButton color="primary" >
                   <DeleteForever fontSize="large" />
                 </IconButton>
               </Box>
