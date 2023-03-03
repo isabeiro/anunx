@@ -15,7 +15,7 @@ const post = async (req, res) => {
 
   form.parse(req, async (error, fields, data) => {
     if (error) {
-      return res.status(500).json({ success: false })
+      return res.status(500).json({ success: true })
     }
 
     const { files } = data
@@ -54,13 +54,13 @@ const post = async (req, res) => {
       category,
       description,
       price,
+      userId,
       name,
       email,
-      local,
       phone,
-      userId,
-      timestamp,
       image,
+      local,
+      timestamp,
     } = fields
     
     const product = new ProductsModel({
@@ -70,18 +70,18 @@ const post = async (req, res) => {
       price,
       user: {
         id: userId,
-        timestamp,
         name,
         email,
-        local,
         phone,
         image,
+        local,
+        timestamp,
       },
       files: filesToSave,
     })
 
     const register = await product.save()
-
+    console.log(register)
 
     if (register) {
       res.status(201).json({ success: true })
@@ -101,16 +101,17 @@ const remove = async (req, res) => {
   if (deleted) {
     return res.status(200).json({ success: true })
   } else {
-    return res.status(500).json({ error: false })
+    return res.status(500).json({ success: false })
   }
 }
 
-const put = async (req, res) => {
+const update = async (req, res) => {
   await dbConnect()
+  const { id } = req.query
 
-  const form = formidable.IncomingForm({
+  const form = new formidable.IncomingForm({
     multiples: true,
-    uploadDir: "public/uploads",
+    uploadDir: 'public/uploads',
     keepExtensions: true,
   })
 
@@ -118,37 +119,6 @@ const put = async (req, res) => {
     if (error) {
       return res.status(500).json({ success: false })
     }
-
-    const { id } = req.query
-
-    const filesToRename = files instanceof Array
-      ? files
-      : [files]
-
-    const filesToSave = []
-
-    filesToRename.forEach(file => {
-      const timestamp = Date.now()
-      const random = Math.floor(Math.random() * 99999999) + 1
-      const extension = path.extname(file.name) //retorna .jpg ou .(extensao da imagem)
-
-      const filename = `${timestamp}_${random}${extension}`
-
-      const oldpath = path.join(__dirname, `../../../../../${file.path}`)
-      const newpath = path.join(__dirname, `../../../../../${form.uploadDir}/${filename}`)
-
-      filesToSave.push({
-        name: filename,
-        path: newpath,
-      })
-
-      fs.rename(oldpath, newpath, (error) => {
-        if (error) {
-          console.log(error)
-          return res.status(500).json({ success: true })
-        }
-      })      
-    })
 
     const {
       title,
@@ -160,7 +130,6 @@ const put = async (req, res) => {
       local,
       phone,
       timestamp,
-      image,
     } = fields
 
     const product = await ProductsModel.findById(id)
@@ -169,17 +138,16 @@ const put = async (req, res) => {
     product.category = category 
     product.description = description 
     product.price = price 
-    product.timestamp = timestamp 
-    product.name = name 
-    product.email = email 
-    product.local = local 
-    product.phone = phone 
-    product.image = image 
+    product.user.name = name 
+    product.user.email = email 
+    product.user.local = local 
+    product.user.phone = phone 
+    product.user.timestamp = timestamp 
 
-    const register = product.save()
+    const updated = product.save()
     
-    if (register) {
-      res.status(201).json({ success: true })
+    if (updated) {
+      res.status(200).json({ success: true })
     } else {
       res.status(500).json({ success: false })
     }
@@ -189,5 +157,5 @@ const put = async (req, res) => {
 export {
   post,
   remove,
-  put,
+  update,
 }

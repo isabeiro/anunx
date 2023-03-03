@@ -58,7 +58,7 @@ const FileUpload = ({ files, errors, touched, setFieldValue }) => {
         {
           files.map((file, index) => (
             <Box
-            key={file.name}
+              key={file.name}
               className={classes.thumb}
               style={{ backgroundImage: `url(${file.preview})` }}
             >

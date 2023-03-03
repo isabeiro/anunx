@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "craco build",
-    "start": "craco start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -29,7 +29,6 @@
     "yup": "^1.0.0"
   },
   "devDependencies": {
-    "@craco/craco": "^7.0.0",
     "mongodb": "^3.7.3"
   }
 }

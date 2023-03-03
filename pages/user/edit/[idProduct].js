@@ -19,46 +19,57 @@ import {
 } from '@material-ui/core'
 
 import TemplateDefault from '../../../src/templates/Default'
-import FileUpload from '../../../src/components/FileUpload'
 import useToasty from '../../../src/contexts/Toasty'
-import { initialValues, validationSchema } from './formValues'
+import { validationSchema } from './formValues'
 import ProductsModel from '../../../src/models/products'
-
 import useStyles from './styles'
-import dbConnect from '@/src/utils/dbConnect'
 
-const Edit = ({ product }) => {
+const Edit = ({ userId, image, product }) => {
   const classes = useStyles()
   const { setToasty } = useToasty()
   const router = useRouter
 
-  const formValues = {
-    ...initialValues,
+  const initialValues = {
+    title: product.title,
+    category: product.category,
+    description: product.description,
+    price: product.price,
+    name: product.user.name,
+    email: product.user.email,
+    phone: product.user.phone,
+    local: product.user.local,
+    timestamp: product.user.timestamp,
+    files: [product.files],
   }
 
-  formValues.userId = product.userId
-  formValues.image = product.user.image
+  const formValues = {
+    ...initialValues,
+  }   
+
+  formValues.userId = userId
+  formValues.image = image
 
   const handleSuccess = () => {
     setToasty({
       open: true,
-      text: 'Anúncio cadastrado com sucesso',
       severity: 'success',
+      text: 'Anúncio editado com sucesso',
     })
-
+    
     router.push('/user/dashboard')
   }
 
-  const handleError = () => {
+  const handleError = (error) => {
     setToasty({
       open: true,
       text: 'Ops, ocorreu um erro, tente novamente.',
       severity: 'error',
     })
+    console.log(error)
   }
 
-  const handleFormSubmit = async (values) => {
-    const formData = FormData()
+  const handleFormSubmit = (values) => {
+    const formData = new FormData()
 
     for(let field in values) {
       if (field === 'files') {
@@ -70,13 +81,13 @@ const Edit = ({ product }) => {
       }
     }
 
-    axios.put('/api/products/add', formData)
-      .then(handleSuccess)
-      .catch(handleError)
+    axios.put(`/api/products/edit/${product._id}`, formData)
+      .then(handleSuccess())
+      .catch(handleError())
   }
   
   return (
-    <TemplateDefault>
+    <TemplateDefault>  
       <Formik 
         initialValues={formValues}
         validationSchema={validationSchema}
@@ -89,10 +100,8 @@ const Edit = ({ product }) => {
             errors,
             handleChange,
             handleSubmit,
-            setFieldValue,
             isSubmitting,
           }) => {
-
             
             return (
               <form onSubmit={handleSubmit}>
@@ -100,7 +109,6 @@ const Edit = ({ product }) => {
                 <Input type="hidden" name="image" value={values.image} />
                 <Input type="hidden" name="timestamp" value={values.timestamp} />
                 <Input type="hidden" name="productId" value={product._id} />
-
 
                 <Container maxWidth="sm">
                   <Typography component="h1" variant="h2" align="center" color="textPrimary">
@@ -117,7 +125,7 @@ const Edit = ({ product }) => {
                   <Box className={classes.box}>
                     
                     <FormControl error={errors.title && touched.title} fullWidth>
-                      <InputLabel className={classes.inputLabel}>{product.title}</InputLabel>
+                      <InputLabel className={classes.inputLabel}>Título do Anúncio</InputLabel>
                       <Input 
                         name="title"
                         value={values.title}
@@ -164,19 +172,8 @@ const Edit = ({ product }) => {
 
                 <Container maxWidth="md" className={classes.boxContainer}>
                   <Box className={classes.box}>
-                    <FileUpload 
-                      files={values.files}
-                      errors={errors.files}
-                      touched={touched.files}
-                      setFieldValue={setFieldValue}
-                    />
-                  </Box>
-                </Container>
-
-                <Container maxWidth="md" className={classes.boxContainer}>
-                  <Box className={classes.box}>
                     <FormControl error={errors.description && touched.description} fullWidth>
-                      <InputLabel className={classes.inputLabel}>Escreva os detalhes do que está vendendo</InputLabel>
+                      <InputLabel className={classes.inputLabel} >Escreva os detalhes do que está vendendo</InputLabel>
 
                       <Input
                         name="description"
@@ -184,6 +181,7 @@ const Edit = ({ product }) => {
                         minRows={6}
                         variant="outlined"
                         onChange={handleChange}
+                        value={values.description}
                       />
                       <FormHelperText>
                         { errors.description && touched.description ? errors.description : null }
@@ -202,6 +200,7 @@ const Edit = ({ product }) => {
                         variant="outlined"
                         onChange={handleChange}
                         startAdornment={<InputAdornment position="start">R$</InputAdornment>}
+                        value={values.price}
                       />
                       <FormHelperText>
                         { errors.price && touched.price ? errors.price : null }
@@ -275,8 +274,8 @@ const Edit = ({ product }) => {
                       isSubmitting
                         ? <CircularProgress className={classes.loading} />
                         : <Button type="submit" variant="contained" color="primary">
-                        Publicar Anúncio
-                      </Button>
+                          Editar Anúncio
+                        </Button>
                     }
                     
                   </Box>

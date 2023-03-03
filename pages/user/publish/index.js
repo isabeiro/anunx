@@ -46,6 +46,7 @@ const Publish = ({ userId, image }) => {
   formValues.timestamp = date
 
   const handleSuccess = () => {
+
     setToasty({
       open: true,
       text: 'Anúncio cadastrado com sucesso',
@@ -77,8 +78,8 @@ const Publish = ({ userId, image }) => {
     }
 
     axios.post('/api/products/add', formData)
-      .then(handleSuccess)
-      .catch(handleError)
+      .then(handleSuccess())
+      .catch(handleError())
   }
   
   return (

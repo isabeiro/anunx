@@ -118,6 +118,7 @@ const Product = ({ product }) => {
 
 export async function getServerSideProps({ query }) {
   const { id } = query
+  console.log(query)
 
   await dbConnect()
 

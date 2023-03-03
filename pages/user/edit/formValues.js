@@ -1,20 +1,5 @@
 
 import * as yup from 'yup'
-import ProductsModel from '../../../src/models/products'
-
-const product = await ProductsModel.findOne({ _id: id })
-
-const initialValues = {
-  title: product.title,
-  category: product.category,
-  description: product.description,
-  price: product.price,
-  email: product.user.email,
-  name: product.user.name,
-  phone: product.user.phone,
-  local: product.user.local,
-  timestamp: product.user.timestamp,
-}
 
 const validationSchema = yup.object().shape({
   title: yup.string()
@@ -30,10 +15,8 @@ const validationSchema = yup.object().shape({
   name: yup.string().required('Campo obrigatório'),
   phone: yup.number().required('Campo obrigatório'),
   local: yup.string().required('Campo obrigatório'),
-  files: yup.array().min(1, 'Envie pelo menos uma foto').required('Campo obrigatório')
 })
 
 export {
-  initialValues,
   validationSchema,
 }

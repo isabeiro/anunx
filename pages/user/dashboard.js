@@ -41,9 +41,14 @@ const Home = ({ products }) => {
   const [productId, setProductId] = useState()
   const [removedProducts, setRemovedProducts] = useState([])
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
-  const router = useRouter()
+  const route = useRouter()
 
   const handleCloseModal = () => setOpenConfirmModal(false)
+
+  const handleClickEdit = (productId) => {
+    setProductId(productId)
+    route.push(`/user/edit/${productId}`)
+  }
 
   const handleClickRemove = (productId) => {
     setProductId(productId)
@@ -134,7 +139,7 @@ const Home = ({ products }) => {
                     subtitle={formatCurrency(product.price)}
                     actions={
                       <>
-                        <Button size="small" color="primary" onClick={() => router.push(`/user/edit/${product._id}`)}>
+                        <Button size="small" color="primary" onClick={() => handleClickEdit(product._id)}>
                           Editar
                         </Button>
                         <Button size="small" color="primary" onClick={() => handleClickRemove(product._id)}>
