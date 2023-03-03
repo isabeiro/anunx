@@ -56,7 +56,7 @@ const Edit = ({ userId, image, product }) => {
       text: 'Anúncio editado com sucesso',
     })
     
-    router.push('/user/dashboard')
+    router.push('user/dashboard')
   }
 
   const handleError = (error) => {

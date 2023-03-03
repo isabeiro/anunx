@@ -26,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e8e8e8',
+    backgroundColor: '#a8a8a8',
     width: '100%',
     height: 1,
     margin: theme.spacing(7, 0, 4),
 
     '& span': {
-      backgroundColor: 'white',
+      backgroundColor: theme.palette.background.white,
       padding: '0 30px'
     }
   }
